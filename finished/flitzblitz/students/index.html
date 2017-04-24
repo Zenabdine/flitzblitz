@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="de" dir="ltr" class="redesign no-js" data-ffo-opensans="false" data-ffo-opensanslight="false">
+<head>
+	<meta charset="utf-8"/>
+	<title>status send</title>
+	<script>
+		function FensterOeffnen (Adresse) {
+			MeinFenster = window.open(Adresse, "Zweitfenster", "width=300,height=100,left=10,top=10,menubar=no,location=no,resizeable=no" );
+			//MeinFenster.document.write("<p>ein neues Fenster!<br>(Besser wäre aber eine dialog-Box!)</p>");
+			MeinFenster.focus();
+		}
+	</script>
+</head>
+<body bgcolor=grey>
+
+	<h1>Studenten-Seite</h1>
+
+	Wo du sitze?
+
+	<a href="../statuspanel.php?action=select_room&location=duesseldorf">D&uuml;sseldorf</a>
+	<a href="../statuspanel.php?action=select_room&location=dortmund">Dortmund</a>
+	<a href="../statuspanel.php?action=select_room&location=frankfurt">Frankfurt</a>
+	<a href="../statuspanel.php?action=select_room&location=berlin">Berlin</a>
+	<a href="../statuspanel.php?action=select_room&location=karlsruhe">Karlsruhe</a>
+
+	<input type="hidden" name="user" value="student">
+
+
+	<a href=open.html onclick="FensterOeffnen('open.html'); return false">klicken</a>
+
+	<iframe style="visibility: hidden; position: absolute; left: 0; top: 0; height:0; width:0; border: none"
+			src="../statuspanel.php?status=register"></iframe>
+</body>
+</html>
