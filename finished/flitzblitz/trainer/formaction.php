@@ -84,16 +84,25 @@
 					echo "<form action=\"formaction.php\" method=\"post\">";
 						while ($row = $sth->fetch()) {
 							echo "<p>Raum: ". ucwords($row[4]) ." Start: $row[0] Name: $row[1] aktiv: $row[3]</p>";
-							
 						}
-						echo "<button type=\"submit\" name=\"action\" value=\"stop\">&Uuml;bung stoppen</button>";
-						echo "<button type=\"submit\" name=\"action\" value=\"restart\">&Uuml;bung neustarten</button>";
+						$active_exercise = get_active_exercise($_REQUEST['location'], $dbh);
+						if ($active_exercise) {
+							printf("<p>Aktive &Uuml;bung: %s Name: %s<br/>", $active_exercise['start'], $active_exercise['name']);
+							echo "<button type=\"submit\" name=\"action\" value=\"stop\">&Uuml;bung stoppen</button>";
+							echo "<button type=\"submit\" name=\"action\" value=\"restart\">&Uuml;bung neustarten</button>";
+						} else {
+							echo "<p>Keine &Uuml;bung aktiv.";
+							echo "<input type='text' name='name'>";
+							echo "<button type=\"submit\" name=\"action\" value=\"start\">&Uuml;bung starten</button>";
+						}
 						echo "<input type=\"hidden\" name=\"location\" value=\"" . $_REQUEST['location'] . "\">";
 						echo "<input type=\"hidden\" name=\"exercise\" value=\"" . $row[0] . "\">";
 					echo "</form>";
 				echo "</body></html>";
 				break;
-			case 'stop';
+			case 'start':
+				break;
+			case 'stop':
 				if (isset($_REQUEST['location'])) {
 					if (isset($_REQUEST['exercise'])) {
 						try {
