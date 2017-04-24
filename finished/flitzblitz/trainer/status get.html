@@ -1,0 +1,265 @@
+
+<!-- saved from url=(0042)http://sp.flitzblitz.de/trainer/status.php -->
+<html lang="de" dir="ltr" class="redesign no-js" data-ffo-opensans="false" data-ffo-opensanslight="false"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta http-equiv="refresh" content="30"> 
+
+<style>
+.containerdivNewLine { clear: both; float: left; display: block; position: relative; } 
+
+div.ovalr {
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+  background-color: #990000;
+  margin: 5px;
+  float: left;
+}
+div.ovalg {
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+  background-color: green;
+  margin: 5px;
+  float: left;
+}
+
+body {
+   padding: 100 px,100 px, 100px,100 px;
+   margin: 100 px,100 px, 100px,100 px
+
+}
+
+.red{
+		  display:inline;
+		  color:#990000;
+	  }
+      .darkblue{
+		  display:inline;
+		  color:darkblue;
+	  }
+      form { 
+	       float: center;
+	       !align-content: center;
+		   width: 500;
+		   border: 0px solid;
+		   margin: 0 0 0 100
+	  }
+      td {
+	       font-family : arial;
+		   font-weight:bold;
+		   color:white;
+	  }
+	  
+      .ms { 
+			position:absolute;
+			!margin: 1cm;
+			!background-color:#99FF99; 
+			width: 200px;
+			border: 0px solid;
+			!margin: 0px 0px 0px 0px;
+			top:20px;
+			left:600;
+	  }
+</style>
+<link rel="stylesheet" type="text/css" href="./status get_files/css3clock.css">
+	
+</head><body bgcolor="grey">
+<title>status get</title>
+<font face="arial" color="white">
+<basefont face="arial" color="white">
+
+<h1>Trainer-Seite</h1>
+<script>
+function confirm_Click() {
+    var strconfirm = confirm("Neue Übung starten?");
+    if (strconfirm == true) 
+        return true;
+	else 
+		return false;
+}
+function FensterOeffnen (Adresse) { 
+MeinFenster = window.open(Adresse, "Zweitfenster", "width=300,height=100,left=10,top=10,menubar=no,location=no,resizeable=no" ); 
+//MeinFenster.document.write("<p>ein neues Fenster!<br>(Besser wäre aber eine dialog-Box!)</p>"); 
+MeinFenster.focus(); 
+}
+function getValue(){
+    // alert (document.getElementById("classs").value);
+    //document.getElementById("demo").innerHTML = "You selected: " + x;
+	  classroom.classroomi.value= document.getElementById("classs").value;
+
+  }
+
+</script>
+
+Übersicht-Seite Trainer, zum aktualisieren bitte hier 
+<a href="http://sp.flitzblitz.de/trainer/status.php" !onclick="document.location.reload(); return false">klicken <img src="./status get_files/reload.gif" width="100" align="middle" style="position:absolute; top:45px"></a><br style="clear:both">
+
+(Seite wird alle 30 automatisch aktualisiert),
+<br>zurück zur <a href="http://sp.flitzblitz.de/">Startseite <img src="./status get_files/home.gif" width="100" align="middle"></a>
+<br>
+<br>
+Zur zeit sind <div class="red"><b>3</b></div> Studenten angemeldet:<br>
+
+<div class="ovalr"></div><div class="ovalr"></div><div class="ovalr"></div>
+<br style="clear:left">
+<!-- Tabelle war nur Platzhalter
+<table border=1 cellspacing=0 !align=center style="margin:50 0 0 100">
+<tr>
+  <td width=100 height=100 bgcolor=#A61A1A align=center>9</td>
+  <td width=100 height=100 bgcolor=#A61A1A align=center>10</td>
+  <td width=100 height=100 bgcolor=#A61A1A align=center></td>
+  <td width=100 height=100 bgcolor=#A61A1A align=center></td>
+</tr>
+<tr>
+  <td width=100 height=100 bgcolor=#A61A1A align=center>5</td>
+  <td width=100 height=100 bgcolor=#A61A1A align=center>6</td>
+  <td width=100 height=100 bgcolor=#A61A1A align=center>7</td>
+  <td width=100 height=100 bgcolor=#A61A1A align=center>8</td>
+</tr>
+<tr>
+  <td width=100 height=100 bgcolor=#A61A1A align=center>1</td>
+  <td width=100 height=100 bgcolor=#A61A1A align=center>2</td>
+  <td width=100 height=100 bgcolor=#A61A1A align=center>3</td>
+  <td width=100 height=100 bgcolor=#A61A1A align=center>4</td>
+</tr>
+</table>
+ -->
+<br>
+<form name="classroom_list">
+Bitte Klassenzimmer auswählen:<br>
+
+<select id="classs" name="classrooms" !onchange="getValue();"> 
+<optgroup label="Klassenzimmer EG">
+   <option> Aula </option>
+   <option> Kaffeeautomat</option>
+   <option> Empfang </option>
+   <option> Nebenraum</option>
+</optgroup><optgroup label="Klassenzimmer 1. OG">
+   <option> Stockholm</option>
+   <option> </option>
+   <option> </option>
+   <option> </option>
+</optgroup><optgroup label="Klassenzimmer 2. OG">
+   <option selected=""> Düsseldorf</option>
+   <option> </option>
+   <option> </option>
+   <option> </option>
+</optgroup><optgroup label="Klassenzimmer 3. OG">
+   <option> Technikraum</option>
+   <option> </option>
+   <option> </option>
+   <option> </option>
+</optgroup><optgroup label="extern 1">
+   <option> Extern 1</option>
+   <option> Extern 2</option>
+   <option> Extern 3</option>
+   <option> Extern 4</option>
+</optgroup><optgroup label="extern 2">
+   <option> Extern 11</option>
+   <option> Extern 12</option>
+   <option> Extern 13</option>
+   <option> Extern 14</option>
+</optgroup></select>   
+<!-- <input name=classroomi value="Düsseldorf"> </input>
+ -->
+ <input type="submit" value="Klassenzimmer abfragen" name="send">
+ 
+ </form>
+
+
+<form name="classroom_del" action="http://sp.flitzblitz.de/trainer/status.php" method="post" onsubmit="return(confirm_Click())">
+<input type="hidden" name="action" value="delete">
+<br>
+<br>
+<div class="darkblue">Verwaltung-Tools</div><br>
+Bitte Klassenzimmer auswählen:<br>
+
+<select id="classs" name="classrooms" !onchange="getValue();"> 
+<optgroup label="Klassenzimmer EG">
+   <option> Aula </option>
+   <option> Kaffeeautomat</option>
+   <option> Empfang </option>
+   <option> Nebenraum</option>
+</optgroup><optgroup label="Klassenzimmer 1. OG">
+   <option> Stockholm</option>
+   <option> </option>
+   <option> </option>
+   <option> </option>
+</optgroup><optgroup label="Klassenzimmer 2. OG">
+   <option selected=""> Düsseldorf</option>
+   <option> </option>
+   <option> </option>
+   <option> </option>
+</optgroup><optgroup label="Klassenzimmer 3. OG">
+   <option> Technikraum</option>
+   <option> </option>
+   <option> </option>
+   <option> </option>
+</optgroup><optgroup label="extern 1">
+   <option> Extern 1</option>
+   <option> Extern 2</option>
+   <option> Extern 3</option>
+   <option> Extern 4</option>
+</optgroup><optgroup label="extern 2">
+   <option> Extern 11</option>
+   <option> Extern 12</option>
+   <option> Extern 13</option>
+   <option> Extern 14</option>
+</optgroup></select>   
+ <input type="submit" value="Klassenzimmer neustarten" name="delete">
+ 
+ </form>
+
+
+<div class="ms"> 
+<div id="liveclock" class="outer_face">
+
+<div class="marker oneseven"></div>
+<div class="marker twoeight"></div>
+<div class="marker fourten"></div>
+<div class="marker fiveeleven"></div>
+
+<div class="inner_face">
+<div class="hand hour" style="transform: rotate(37deg);"></div>
+<div class="hand minute" style="transform: rotate(84deg);"></div>
+<div class="hand second" style="transform: rotate(190.998deg);"></div>
+</div>
+
+</div>
+
+<script src="./status get_files/jquery.js.download"></script>
+
+<script type="text/javascript">
+
+/***********************************************
+* CSS3 Analog Clock- by JavaScript Kit (www.javascriptkit.com)
+* Visit JavaScript Kit at http://www.javascriptkit.com/ for this script and 100s more
+***********************************************/
+
+var $hands = $('#liveclock div.hand')
+
+window.requestAnimationFrame = window.requestAnimationFrame
+                               || window.mozRequestAnimationFrame
+                               || window.webkitRequestAnimationFrame
+                               || window.msRequestAnimationFrame
+                               || function(f){setTimeout(f, 60)}
+
+
+function updateclock(){
+	var curdate = new Date()
+	var hour_as_degree = ( curdate.getHours() + curdate.getMinutes()/60 ) / 12 * 360
+	var minute_as_degree = curdate.getMinutes() / 60 * 360
+	var second_as_degree = ( curdate.getSeconds() + curdate.getMilliseconds()/1000 ) /60 * 360
+	$hands.filter('.hour').css({transform: 'rotate(' + hour_as_degree + 'deg)' })
+	$hands.filter('.minute').css({transform: 'rotate(' + minute_as_degree + 'deg)' })
+	$hands.filter('.second').css({transform: 'rotate(' + second_as_degree + 'deg)' })
+	requestAnimationFrame(updateclock)
+}
+
+requestAnimationFrame(updateclock)
+
+
+</script>
+</div>
+
+
+</font></body></html>
