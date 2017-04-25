@@ -1,10 +1,68 @@
+
+<?php
+	// Datenbank verbinden
+	$servername = "localhost";
+	$username = "sp";
+	$password = "ServicePanel";
+	$dbname   = "lug_finished";
+
+	// Check connection
+	$conn = new mysqli($servername, $username, $password,^$dbname);
+	if ($conn->connect_error) {
+    	die("Connection failed: " . $conn->connect_error);
+	}
+
+	// In Datebank prüfen ob bereits eine Workstation ausgewählt wurde
+	$sql = "SELECT workstation FROM students where session_id =\"$id\"";
+	$resWs = $conn->query($sql);
+
+	if ( $resWs->num_rows > 0 or is_null($res) ){
+		// Der User hat in seiner aktuellen Session bereits eine Workstation ausgewählt und wird auf die Statusseite weitergeleitet
+		header("Location: report.php")
+	}
+	else {
+		// Der User soll eine Workstation auswählen
+		// Gibt die Namen der Schulungsräume in einer Dropdown Liste aus
+		$sqlRooms = "SELECT name FROM rooms";
+		$resRooms = $conn->query($sqlRooms);
+		
+		if($resRooms->num_rows > 0) {
+			
+			// Füllt die Dropdown Liste
+			echo "<select id=cr name=classrooms >"; 
+            while ($row = $resRooms->fetch_object()) { 
+                echo "<option>$row['name']</option>"; 
+            } 
+            echo "</select>";
+
+			//
+			$selRoom = getValue();
+
+			$sqlNrWs = "SELECT workstations FROM rooms WHERE classroom = \"$selRoom\"";
+			$resNrWs = $conn->query($sqlNrWs);
+			
+			for( $i = 0; §i < $resNrWs['workstations'] ; §i++)	{
+				if ($i>0 and $i%4==0) {
+					echo "<div class=containerdivnewline></div>"; 
+ 		    		echo "<div class=\"ovalr\"></div>";  
+				} else {
+					echo "<div class=\"ovalr\"></div>";
+				}  
+			}
+		}
+	}
+?>
+
 <!DOCTYPE html>
 <html lang="de" dir="ltr" class="redesign no-js" data-ffo-opensans="false" data-ffo-opensanslight="false">
 <script>
 	function FensterOeffnen (Adresse) {
 		MeinFenster = window.open(Adresse, "Zweitfenster", "width=300,height=100,left=10,top=10,menubar=no,location=no,resizeable=no" );
-		//MeinFenster.document.write("<p>ein neues Fenster!<br>(Besser wÃ¤re aber eine dialog-Box!)</p>");
 		MeinFenster.focus();
+	}
+	function getValue(){
+		var e = document.getElementById("classs");
+		return e.options[e.selectedIndex].text;
 	}
 </script>
 
@@ -17,34 +75,7 @@
 	<h1>Studenten-Seite</h1>
 
 	Wo du sitze?
-/*
-<?php
-	// Datenbank verbinden
-	$servername = "localhost";
-	$username = "sp";
-	$password = "ServicePanel";
-	$dbname   = "lug_finished";
 
-	// Check connection
-	$conn = new mysqli($servername, $username, $password,$dbname);
-	if ($conn->connect_error) {
-    	die("Connection failed: " . $conn->connect_error);
-	}
-
-	// In Datebank prüfen ob bereits eine Workstation ausgewählt wurde
-	$sql = "SELECT workstation FROM students where session_id =\"$id\"";
-	$result = $conn->query($sql);
-
-	if ( $result->num_rows > 0 or $result != Null ){
-		// Der User hat in seiner aktuellen Session bereits eine Workstation ausgewählt und wird auf die Statusseite weitergeleitet
-		
-	}
-	else {
-		// Der User soll eine Workstation auswählen
-		
-	}
-?>
-*/
 	<a href="../statuspanel.php?action=select_room&location=duesseldorf">D&uuml;sseldorf</a>
 	<a href="../statuspanel.php?action=select_room&location=dortmund">Dortmund</a>
 	<a href="../statuspanel.php?action=select_room&location=frankfurt">Frankfurt</a>
