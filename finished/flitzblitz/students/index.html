@@ -1,56 +1,57 @@
+<?php
 
 <?php
-	// Datenbank verbinden
-	$servername = "localhost";
-	$username = "sp";
-	$password = "ServicePanel";
-	$dbname   = "lug_finished";
+// Datenbank verbinden
+$servername = "localhost";
+$username = "sp";
+$password = "ServicePanel";
+$dbname   = "lug_finished";
 
-	// Check connection
-	$conn = new mysqli($servername, $username, $password,^$dbname);
-	if ($conn->connect_error) {
-    	die("Connection failed: " . $conn->connect_error);
-	}
+// Check connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+if ($conn->connect_error) {
+	die("Connection failed: " . $conn->connect_error);
+}
 
-	// In Datebank prüfen ob bereits eine Workstation ausgewählt wurde
-	$sql = "SELECT workstation FROM students where session_id =\"$id\"";
-	$resWs = $conn->query($sql);
+// In Datebank prüfen ob bereits eine Workstation ausgewählt wurde
+$sql = "SELECT workstation FROM students where session_id =\"$id\"";
+$resWs = $conn->query($sql);
 
-	if ( $resWs->num_rows > 0 or is_null($res) ){
-		// Der User hat in seiner aktuellen Session bereits eine Workstation ausgewählt und wird auf die Statusseite weitergeleitet
-		header("Location: report.php")
-	}
-	else {
-		// Der User soll eine Workstation auswählen
-		// Gibt die Namen der Schulungsräume in einer Dropdown Liste aus
-		$sqlRooms = "SELECT name FROM rooms";
-		$resRooms = $conn->query($sqlRooms);
+if ( $resWs->num_rows > 0 or !is_null($resWs['workstation']) ){
+	// Der User hat in seiner aktuellen Session bereits eine Workstation ausgewählt und wird auf die Statusseite weitergeleitet
+	header("Location: report.php")
+}
+else {
+	// Der User soll eine Workstation auswählen
+	// Gibt die Namen der Schulungsräume in einer Dropdown Liste aus
+	$sqlRooms = "SELECT name FROM rooms";
+	$resRooms = $conn->query($sqlRooms);
+	
+	if($resRooms->num_rows > 0) {
 		
-		if($resRooms->num_rows > 0) {
-			
-			// Füllt die Dropdown Liste
-			echo "<select id=cr name=classrooms >"; 
-            while ($row = $resRooms->fetch_object()) { 
-                echo "<option>$row['name']</option>"; 
-            } 
-            echo "</select>";
-
-			//
-			$selRoom = getValue();
-
-			$sqlNrWs = "SELECT workstations FROM rooms WHERE classroom = \"$selRoom\"";
-			$resNrWs = $conn->query($sqlNrWs);
-			
-			for( $i = 0; §i < $resNrWs['workstations'] ; §i++)	{
-				if ($i>0 and $i%4==0) {
-					echo "<div class=containerdivnewline></div>"; 
- 		    		echo "<div class=\"ovalr\"></div>";  
-				} else {
-					echo "<div class=\"ovalr\"></div>";
-				}  
+		// Füllt die Dropdown Liste
+		echo "<select id=clr name=classrooms onchange="getValue();">";
+		while ($row = $resRooms->fetch_object()) {
+			echo "<option>$row</option>";
+		}
+		echo "</select>";
+		
+		//
+		$selRoom = $_POST['clr'];
+		
+		$sqlNrWs = "SELECT workstations FROM rooms WHERE classroom = \"$selRoom\"";
+		$resNrWs = $conn->query($sqlNrWs);
+		
+		for( $i = 0; §i < $resNrWs; §i++)	{
+			if ($i>0 and $i%4==0) {
+				echo "<div class=containerdivnewline></div>";
+				echo "<div class=\"ovalr\"></div>";
+			} else {
+				echo "<div class=\"ovalr\"></div>";
 			}
 		}
 	}
+}
 ?>
 
 <!DOCTYPE html>
