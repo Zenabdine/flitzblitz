@@ -1,7 +1,13 @@
 <!DOCTYPE html>
 <html lang="de" dir="ltr" class="redesign no-js" data-ffo-opensans="false" data-ffo-opensanslight="false">
+<head><title>status send</title>
 <meta charset="utf-8"/>
 <style>
+body {
+	       font-family : arial;
+		   /*font-weight:bold;*/
+		   color:white;
+}
       .invis{
 		  display:inline;
 		  color:grey;
@@ -24,9 +30,8 @@
 </style>
 <link rel="stylesheet" type="text/css" href="../css3clock.css" />
 
+</head>
 <body bgcolor=grey>
-<font face=arial color=white>
-<title>status send</title>
 
 <h1>Studenten-Seite</h1>
 <script>
@@ -127,7 +132,7 @@ Trainer feedback geben und roten Schalter drücken, wenn fertig
 
 
 <br>
-zurück zur <a href=/>Startseite <img src=../img/icons/home.gif width=100 align=middle></a>
+zur�ck zur <a href="/">Startseite <img src=../img/icons/home.gif width=100 align=middle></a>
 <br>
 <br>
 
