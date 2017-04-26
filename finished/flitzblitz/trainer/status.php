@@ -1,8 +1,46 @@
 <html lang="de" dir="ltr" class="redesign no-js" data-ffo-opensans="false" data-ffo-opensanslight="false">
-
 <meta http-equiv="refresh" content="30" > 
-<meta charset="utf-8">
+<meta charset="ISO-8859-1">
 <style>
+table{
+		border-spacing: 0px;
+	    padding: 0px;
+		margin: 0 0 0 30px;
+		border: 1px solid white
+}
+
+div.kreisg {
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+  background-color: grey;
+  margin: 10px;
+  counter-decrement: number -1;
+}
+
+div.kreis {
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+  background-color: #000080;
+  margin: 10px;
+  counter-increment: number -1;
+}
+
+div.kreis::after{
+    content: counter(number);
+    position: relative;
+    color: white;
+    width: 100%;
+    text-align: center;
+    top: 43px;
+    left:43px;
+}
+
+div.kreis:hover {
+  background-color: red;
+}
+
 .containerdivNewLine { clear: both; float: left; display: block; position: relative; } 
 
 div.ovalr {
@@ -24,8 +62,8 @@ div.ovalg {
 
 body {
    padding: 100 px,100 px, 100px,100 px;
-   margin: 100 px,100 px, 100px,100 px
-
+   margin: 100 px,100 px, 100px,100 px;
+   counter-reset: number 12
 }
 
 .red{
@@ -70,7 +108,7 @@ body {
 <h1>Trainer-Seite</h1>
 <script>
 function confirm_Click() {
-    var strconfirm = confirm("Neue √úbung starten?");
+    var strconfirm = confirm("Neue ‹bung starten?");
     if (strconfirm == true) 
         return true;
 	else 
@@ -117,14 +155,14 @@ if($action=="delete"){
 	$result = $conn->query($sql);
 }
 
-// In Datebank schauen wieviele Sch√ºler im Klassenzimmer
+// In Datebank schauen wieviele Sch¸ler im Klassenzimmer
 $now=time();
 // jetzt - 12h
 $from=$now-(12*60*60);
 $from_ts=  date('Y-m-d H:m:s', $from);
 
 // find all sessions newer than 8 hours
-$sql = "SELECT finished from states inner join students on students.id=student where session_created>'$from_ts'";
+$sql = "SELECT finished, seat from states inner join students on students.id=student where session_created>'$from_ts'";
 $result = $conn->query($sql);
 //echo "gefunden: $result->num_rows";
 $found_students=$result->num_rows;
@@ -132,7 +170,7 @@ $students=array();
 if (mysqli_num_rows($result) > 0) {
     // output data of each row
     while($row = mysqli_fetch_assoc($result)) {
-        $students[]=$row["finished"];
+        $students[]=array($row["finished"],$row["seat"]);
     }
 } else {
     echo "0 results";
@@ -140,51 +178,70 @@ if (mysqli_num_rows($result) > 0) {
 
 ?>
 
-√úbersicht-Seite Trainer, zum aktualisieren bitte hier 
+‹bersicht-Seite Trainer, zum aktualisieren bitte hier 
 <a href=status.php !onclick="document.location.reload(); return false">klicken <img src=../img/icons/reload.gif width=100 align=middle style="position:absolute; top:45px"></a><br style="clear:both">
 
 (Seite wird alle 30 automatisch aktualisiert),
-<br>zur√ºck zur <a href=/>Startseite <img src=../img/icons/home.gif width=100 align=middle></a>
+<br>zur¸ck zur <a href=/>Startseite <img src=../img/icons/home.gif width=100 align=middle></a>
 <br>
 <br>
 Zur zeit sind <div class=red><b><?php echo $found_students?></b></div> Studenten angemeldet:<br>
 
+<!--  Klassenzimmer abbilden    -->
+<table width=400 height=300 border=1>
+<tr><?php for ($i=11;$i>=9;$i--) echo "<td><div class=\"kreis\" id=\"kreis$i\"></div></td>"?><td><div class="kreisg"></div></td></tr>
+<tr><?php for ($i=8;$i>=5;$i--) echo "<td><div class=\"kreis\" id=\"kreis$i\"></div></td>"?></tr>
+<tr><?php for ($i=4;$i>=1;$i--) echo "<td><div class=\"kreis\" id=\"kreis$i\"></div></td>"?></tr>
+</table>
+
+<script type="text/javascript">
 <?php
 // Jetzt Lampen dynamisch aufbauen:
+$result = $conn->query($sql);
+while($row = mysqli_fetch_assoc($result)) {
+	//echo "$i i: ".$students[0][0] . " val: ".$students[0][1]." val: ".$students[0][2]."<br>";
+	if ($row["finished"])
+		echo "document.getElementById(\"kreis". $row["seat"] . "\").style.background = \"green\";\n";
+    else
+		echo "document.getElementById(\"kreis" . $row["seat"] . "\").style.background = \"#990000\";\n";
+}
 
-
-$i=0;$j=0;
+?>
+</script>
+<?php 
+/*
+ $i=0;$j=0;
 foreach ($students as $i => $value) {
-    //echo "i: ".$i . " val: ".$value."<br>";
+	//echo "i: ".$i . " val: ".$value."<br>";
 	if ($i>0 and $i%4==0)
 		if ($value){
-		     echo "<div class=containerdivnewline></div>"; 
-			 echo "<div class=\"ovalg\"></div>";  
-	    }
-	    else{
-			echo "<div class=containerdivnewline></div>"; 
- 		    echo "<div class=\"ovalr\"></div>";  
+			echo "<div class=containerdivnewline></div>";
+			echo "<div class=\"ovalg\"></div>";
 		}
+	else{
+		echo "<div class=containerdivnewline></div>";
+		echo "<div class=\"ovalr\"></div>";
+	}
 	else{
 		if ($value)
 			echo "<div class=\"ovalg\"></div>";
-		else
-			echo "<div class=\"ovalr\"></div>";  
+			else
+				echo "<div class=\"ovalr\"></div>";
 	}
 }
 
-/*
-for ($i=0;$i<$found_students;$i++)
-    {
-		if ($i%4==0){
-                     echo "<div class=containerdivnewline></div>"; 
-			echo "<div class=\"oval\"></div>";
-                }
-		else
-			echo "<div class=\"oval\"></div>";
-	}
-*/
-?>
+ for ($i=0;$i<$found_students;$i++)
+ {
+ if ($i%4==0){
+ echo "<div class=containerdivnewline></div>";
+ echo "<div class=\"oval\"></div>";
+ }
+ else
+ echo "<div class=\"oval\"></div>";
+ }
+ */
+ ?>
+
 
 <br style="clear:left">
 <!-- Tabelle war nur Platzhalter
@@ -211,7 +268,7 @@ for ($i=0;$i<$found_students;$i++)
  -->
 <br>
 <form name=classroom_list>
-Bitte Klassenzimmer ausw√§hlen:<br>
+Bitte Klassenzimmer ausw‰hlen:<br>
 
 <select id=classs name=classrooms !onchange="getValue();"> 
 <optgroup label="Klassenzimmer EG">
@@ -225,7 +282,7 @@ Bitte Klassenzimmer ausw√§hlen:<br>
    <option> </option>
    <option> </option>
 <optgroup label="Klassenzimmer 2. OG">
-   <option selected> D√ºsseldorf</option>
+   <option selected> D¸sseldorf</option>
    <option> </option>
    <option> </option>
    <option> </option>
@@ -245,7 +302,7 @@ Bitte Klassenzimmer ausw√§hlen:<br>
    <option> Extern 13</option>
    <option> Extern 14</option>
 </select>   
-<!-- <input name=classroomi value="D√ºsseldorf"> </input>
+<!-- <input name=classroomi value="D¸sseldorf"> </input>
  -->
  <input type=submit value="Klassenzimmer abfragen" name=send>
  
@@ -257,7 +314,7 @@ Bitte Klassenzimmer ausw√§hlen:<br>
 <br>
 <br>
 <div class=darkblue>Verwaltung-Tools</div><br>
-Bitte Klassenzimmer ausw√§hlen:<br>
+Bitte Klassenzimmer ausw‰hlen:<br>
 
 <select id=classs name=classrooms !onchange="getValue();"> 
 <optgroup label="Klassenzimmer EG">
@@ -271,7 +328,7 @@ Bitte Klassenzimmer ausw√§hlen:<br>
    <option> </option>
    <option> </option>
 <optgroup label="Klassenzimmer 2. OG">
-   <option selected> D√ºsseldorf</option>
+   <option selected> D¸sseldorf</option>
    <option> </option>
    <option> </option>
    <option> </option>

@@ -52,6 +52,7 @@ session_start();
 
 $ip = getenv('REMOTE_ADDR');
 $id = session_id();
+$seat = $_GET["seat"];
 
 // Datenbank verbinden
 $servername = "localhost";
@@ -116,8 +117,8 @@ else{
 	}
 
 	// jetzt in Tabelle states eintragen
-	$sql = "insert into states (id, workstation, student, finished,help) value ('$timestamp', $workstation_id,'$student_id', '0','0')";
-	//echo $sql;//exit(0);
+	$sql = "insert into states (id, workstation, student, finished,help, seat) value ('$timestamp', $workstation_id,'$student_id', '0','0','$seat')";
+	//echo $sql;die(0);
 	if ($conn->query($sql) === TRUE) {
     //echo "New record created successfully";
 	} else {
