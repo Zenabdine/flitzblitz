@@ -324,6 +324,7 @@ Bitte Klassenzimmer auswählen:<br>
    <option> Nebenraum</option>
 <optgroup label="Klassenzimmer 1. OG">
    <option> Stockholm</option>
+   
    <option> </option>
    <option> </option>
    <option> </option>
