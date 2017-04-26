@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="de" dir="ltr" class="redesign no-js" data-ffo-opensans="false" data-ffo-opensanslight="false">
 <head><title>status send</title>
-<meta charset="utf-8"/>
+<meta charset="ISO-8859-1">
 <style>
 body {
 	       font-family : arial;
@@ -44,6 +44,7 @@ MeinFenster.focus();
 </script>
 <?php 
 $url="open.php";
+$message ="";
 // server should keep session data for AT LEAST 12 hour
 ini_set('session.gc_maxlifetime', 12*60*60);
 // each client should remember their session id for EXACTLY 12 hour
@@ -76,10 +77,11 @@ if ( $result->num_rows > 0){
 	// User existiert, dann abfragen ob schon fertig
 	$row = mysqli_fetch_assoc($result);
 	$student_id= $row["id"];
-	$sql = "SELECT finished FROM states where student =$student_id";
+	$sql = "SELECT finished, seat FROM states where student =$student_id";
 	$result = $conn->query($sql);
 	if ( $result->num_rows > 0){
 		$row = mysqli_fetch_assoc($result);
+		$message = "Sie haben den Platz Nr.: <div class=red><b>".$row["seat"]."</div> ausgesucht.\n";
 		$finished =$row["finished"];
 		if ($finished)
 			$url="ready.php";
@@ -136,6 +138,7 @@ Trainer feedback geben und roten Schalter drÃ¼cken, wenn fertig
 zurück zur <a href="/">Startseite <img src=../img/icons/home.gif width=100 align=middle></a>
 <br>
 <br>
+<?php echo $message?>
 
 <!--Sie habe die <div class=red>ID: -->
 <div class=invis>
