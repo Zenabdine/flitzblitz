@@ -99,9 +99,8 @@ else{
 	$now = getdate();
 	$timestamp="$now[year]-$now[mon]-$now[mday] $now[hours]:$now[minutes]:$now[seconds]";
 	$sql = "insert into students (session_id, session_created) value ('$id', '$timestamp')";
-	echo "";
+	$message = "Sie haben den Platz Nr.: <div class=red><b>$seat</div> ausgesucht.\n";
 	$student_id=0;
-	//echo $sql;//exit(0);
 	if ($conn->query($sql) === TRUE) {
     //echo "New record created successfully";
 		$student_id= mysqli_insert_id($conn);
