@@ -1,3 +1,28 @@
+<?php
+// Datenbank verbinden
+$servername = "localhost";
+$username = "sp";
+$password = "ServicePanel";
+$dbname   = "lug_finished";
+
+$id = session_id();
+
+// Check connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+if ($conn->connect_error) {
+	die("Connection failed: " . $conn->connect_error);
+}
+
+// In Datebank prüfen ob bereits eine Workstation ausgewählt wurde
+$sql = "SELECT workstation FROM students where session_id =\"$id\"";
+$resWs = $conn->query($sql);
+
+if ( $resWs->num_rows > 0 and $resWs != 0 ){
+	// Der User hat in seiner aktuellen Session bereits eine Workstation ausgewählt und wird auf die Statusseite weitergeleitet
+	header("Location: report.php?seat=0");
+}
+?>
+
 <!DOCTYPE html>
 <html lang="de" dir="ltr" class="redesign no-js" data-ffo-opensans="false" data-ffo-opensanslight="false">
 <head><title>choose place</title>
@@ -70,19 +95,58 @@ div.kreis:hover {
 	  }
 </style>
 <link rel="stylesheet" type="text/css" href="../css3clock.css" />
-
+<script>
+	function FensterOeffnen (Adresse) { 
+		MeinFenster = window.open(Adresse, "Zweitfenster", "width=300,height=100,left=10,top=10,menubar=no,location=no,resizeable=no" ); 
+		//MeinFenster.document.write("<p>ein neues Fenster!<br>(Besser wÃ¤re aber eine dialog-Box!)</p>"); 
+		MeinFenster.focus(); 
+	}
+	function getValue(){
+		var e = document.getElementById("classs");
+		return e.options[e.selectedIndex].text;
+	}
+</script>
 </head>
 <body bgcolor=grey>
+<h1>Bitte wählen Sie ihr Klassenzimmer</h1>
+
+<?php
+	// Der User soll eine Workstation auswählen
+	// Gibt die Namen der Schulungsräume in einer Dropdown Liste aus
+	$sqlRooms = "SELECT name FROM rooms";
+	$resRooms = $conn->query($sqlRooms);
+	
+	if($resRooms->num_rows > 0) {
+		
+		// Füllt die Dropdown Liste
+		echo "<select id=clr name=classrooms>";
+		echo "<option value=''>---Klassenzimmer---</option>";
+		while ($room = mysqli_fetch_assoc($resRooms)) {
+			$i=1;
+			echo "<option value='{".§i."}'>".$room['name']."</option>";
+			$i++;
+		}
+		echo "</select>";
+		
+		//
+// 		$selRoom = $_POST['clr'];
+		
+// 		$sqlNrWs = "SELECT workstations FROM rooms WHERE classroom = \"$selRoom\"";
+// 		$resNrWs = $conn->query($sqlNrWs);
+		
+// 		for( $i = 0; §i < $resNrWs; )	{
+// 			if ($i>0 and $i%4==0) {
+// 				echo "<div class=containerdivnewline></div>";
+// 				echo "<div class=\"ovalr\"></div>";
+// 			} else {
+// 				echo "<div class=\"ovalr\"></div>";
+// 			}
+// 			$i++;
+// 		}
+	}
+?>
 
 <h1>Bitte wählen Sie ihren Sitz</h1>
-<script>
-function FensterOeffnen (Adresse) { 
-MeinFenster = window.open(Adresse, "Zweitfenster", "width=300,height=100,left=10,top=10,menubar=no,location=no,resizeable=no" ); 
-//MeinFenster.document.write("<p>ein neues Fenster!<br>(Besser wÃ¤re aber eine dialog-Box!)</p>"); 
-MeinFenster.focus(); 
-}
-
-</script>
 
 bitte klicken Sie auf den Platz auf dem Sie sitzen
 
@@ -92,11 +156,6 @@ zurück zur <a href="/">Startseite <img src=../img/icons/home.gif width=100 align
 <br>
 <br>
 
-<!--Sie habe die <div class=red>ID: -->
-<div class=invis>
-ihre IP ist : <?php echo $ip;?><br>
-ihre ID ist : <?php echo $id;?><br>
-</div>
 <!-- </div> erhalten! -->
 <div class=ms> 
 <div id="liveclock" class="outer_face">
@@ -153,6 +212,11 @@ requestAnimationFrame(updateclock)
 <table width=400 height=300 border=1>
 <tr><?php for ($i=1;$i<=4;$i++) echo "<td><a href=report.php?seat=$i><div class=\"kreis\"></div></a></td>"?></tr>
 <tr><?php for ($i=5;$i<=8;$i++) echo "<td><a href=report.php?seat=$i><div class=\"kreis\"></div></a></td>"?></tr>
+
+<?php 
+	
+?>
+
 <tr><td><div class=\"kreisg\"></div></td><?php for ($i=9;$i<=11;$i++) echo "<td><a href=report.php?seat=$i><div class=\"kreis\"></div></a></td>"?></tr>
 </table>
 

@@ -57,7 +57,8 @@ session_start();
 
 $ip = getenv('REMOTE_ADDR');
 $id = session_id();
-$seat = $_GET["seat"];
+try { $seat = $_GET["seat"]; }
+catch (Exception $ex) { $seat = 0; }
 
 // Datenbank verbinden
 $servername = "localhost";
@@ -83,6 +84,7 @@ if ( $result->num_rows > 0){
 	$student_id= $row["id"];
 	$sql = "SELECT finished, seat FROM states where student =$student_id";
 	$result = $conn->query($sql);
+	
 	if ( $result->num_rows > 0){
 		$row = mysqli_fetch_assoc($result);
 		$message = "Sie haben den Platz Nr.: <div class=red><b>".$row["seat"]."</div> ausgesucht.\n";
@@ -102,8 +104,9 @@ else{
 	//echo "User wird eingetragen<br>";
 	$now = getdate();
 	$timestamp="$now[year]-$now[mon]-$now[mday] $now[hours]:$now[minutes]:$now[seconds]";
-	$sql = "insert into students (session_id, session_created) value ('$id', '$timestamp')";
+	$sql = "insert into students (session_id, session_created, workstation) value ('$id', '$timestamp', '$seat')";
 	$message = "Sie haben den Platz Nr.: <div class=red><b>$seat</div> ausgesucht.\n";
+	//$sqlInsWs = "INSERT INTO students ";
 	$student_id=0;
 	if ($conn->query($sql) === TRUE) {
     //echo "New record created successfully";
