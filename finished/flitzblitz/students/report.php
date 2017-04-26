@@ -12,9 +12,13 @@ body {
 		  display:inline;
 		  color:grey;
 	  }
-      .red{
+.red{
 		  display:inline;
-		  color:red;
+		  color:#990000;
+	  }
+      .darkblue{
+		  display:inline;
+		  color:darkblue;
 	  }
 
       .ms { 
